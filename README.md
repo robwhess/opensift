@@ -44,20 +44,20 @@ To build everything, use make:
 	make
 
 This should produce a few executables in bin/, a static library 
-lib/libfeat.a, and some HTML documentation in docs/.  You can use the -h 
-argument to get help with any of the executables.  libfeat.a can be 
+lib/libopensift.a, and some HTML documentation in docs/.  You can use the -h 
+argument to get help with any of the executables.  libopensift.a can be 
 compiled into your own code using the standard method:
 
-	gcc -I/path/to/sift/include/ -L/path/to/sift/lib/ yourcode.c -o yourexecutable -lfeat
+	gcc -I/path/to/opensift/include/ -L/path/to/opensift/lib/ yourcode.c -o yourexecutable -lopensift
 
 The documentation in docs/ describes all of the functions available in 
-libfeat.a as well as #defines, etc.  Use the documentation to determine 
+libopensift.a as well as #defines, etc.  Use the documentation to determine 
 what header files from include/ to include in your code.
 
-You can also individually build any of the executables or libfeat.a, 
+You can also individually build any of the executables or libopensift.a, 
 e.g.
 
-	make libfeat.a
+	make libopensift.a
 
 
 License
