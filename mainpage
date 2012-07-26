@@ -1,0 +1,84 @@
+/**@mainpage
+
+Contents:<BR>
+1. Intro<BR>
+2. Requirements<BR>
+3. Building<BR>
+4. License<BR>
+
+
+1. Intro
+
+This is a collection of code I've put together to detect SIFT features 
+in images and to use SIFT (or other) features to compute image 
+transforms with RANSAC. It includes a SIFT function library as well as 
+some executables to detect, match, and display keypoints. For more 
+information on SIFT, refer to the paper by Lowe:
+
+Lowe, D. Distinctive image features from scale-invariant keypoints. 
+<EM>International Journal of Computer Vision, 60</EM>, 2 (2004), 
+pp.91--110.
+
+Or see Lowe's website:<BR>
+http://www.cs.ubc.ca/~lowe/keypoints/
+
+Some of the code also works with affine-invariant features from the code 
+by the VGG at oxford:<BR>
+http://www.robots.ox.ac.uk:5000/~vgg/research/affine/index.html
+
+Check out match.c for an example of how to use the RANSAC function.  Try 
+`match beaver.png beaver_xform.png` to see it work.
+
+Use the navigation bar at the top of this page to browse the 
+documentation.
+
+Help is available for executables using the '-h' command line option.
+
+<HR>
+
+2. Requirements
+
+All code in this package requires the OpenCV library (known working
+version is 2.0):<BR>
+http://sourceforge.net/projects/opencvlibrary/
+
+Some functions require GDK/GTK+2 (known working version is 2.18.4):<BR>
+http://www.gtk.org/
+
+<HR>
+
+3. Building
+
+To build everything, use make:
+
+<pre>
+> make
+</pre>
+
+This should produce a few executables in bin/, a static library
+lib/libfeat.a, and some HTML documentation in docs/.  You can use the -h
+argument to get help with any of the executables.  libfeat.a can be
+compiled into your own code using the standard method:
+
+<pre>
+> gcc -I/path/to/sift/include/ -L/path/to/sift/lib/ yourcode.c -o yourexecutable -lfeat
+</pre>
+
+The documentation in docs/ describes all of the functions available in
+libfeat.a as well as #defines, etc.  Use the documentation to determine
+what header files from include/ to include in your code.
+
+You can also individually build any of the executables or libfeat.a,
+e.g.
+
+<pre>
+> make libfeat.a
+</pre>
+<HR>
+
+4. License
+
+See the file LICENSE for more information on the legal terms of the use 
+of this package.
+
+*/
