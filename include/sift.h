@@ -7,7 +7,7 @@
    <EM>International Journal of Computer Vision, 60</EM>, 2 (2004),
    pp.91--110.
   
-   Copyright (C) 2006-2010  Rob Hess <hess@eecs.oregonstate.edu>
+   Copyright (C) 2006-2012  Rob Hess <rob@iqengines.com>
    
    Note: The SIFT algorithm is patented in the United States and cannot be
    used in commercial products without a license from the University of

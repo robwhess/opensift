@@ -9,7 +9,7 @@
    on Computer Vision and Pattern Recognition (CVPR)</EM> (2003),
    pp. 1000--1006.
    
-   Copyright (C) 2006-2010  Rob Hess <hess@eecs.oregonstate.edu>
+   Copyright (C) 2006-2012  Rob Hess <rob@iqengines.com>
 
    @version 1.1.2-20100521
 */

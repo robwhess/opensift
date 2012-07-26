@@ -1,7 +1,7 @@
 /*
   Functions and structures for implementing a minimizing priority queue.
   
-  Copyright (C) 2006-2010  Rob Hess <hess@eecs.oregonstate.edu>
+  Copyright (C) 2006-2012  Rob Hess <rob@iqengines.com>
 
   @version 1.1.2-20100521
 */
