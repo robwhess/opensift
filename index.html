@@ -13,14 +13,14 @@
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
-    <title>Opensift by robwhess</title>
+    <title>OpenSIFT: An Open-Source SIFT Library</title>
   </head>
 
   <body>
     <header>
       <div class="inner">
-        <h1>Opensift</h1>
-        <h2>Open-Source SIFT Library</h2>
+        <h1>OpenSIFT</h1>
+        <h2>An Open-Source SIFT Library</h2>
         <a href="https://github.com/robwhess/opensift" class="button"><small>View project on</small>GitHub</a>
       </div>
     </header>
@@ -28,7 +28,117 @@
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-          <p>The Scale Invariant Feature Transform (SIFT) is a method to detect distinctive, invariant image feature points, which easily can be matched between images to perform tasks such as object detection and recognition, or to compute geometrical transformations between images. The open-source SIFT library available here is implemented in C using the OpenCV open-source computer vision library and includes functions for computing SIFT features in images, matching SIFT features between images using kd-trees, and computing geometrical image transforms from feature matches using RANSAC.  The library also includes functionality to import and work with image features from both <a href="http://www.cs.ubc.ca/%7Elowe/keypoints/">David Lowe's SIFT executable</a> and <a href="http://www.robots.ox.ac.uk/%7Evgg/research/affine/">the Oxford VGG’s affine covariant feature detectors</a>. The images below depict some of this functionality.</p>
+          <p>The Scale Invariant Feature Transform (SIFT) is a method to detect
+	    distinctive, invariant image feature points, which easily can be
+	    matched between images to perform tasks such as object detection
+	    and recognition, or to compute geometrical transformations between
+	    images. The open-source SIFT library available here is implemented
+	    in C using the OpenCV open-source computer vision library and
+	    includes functions for computing SIFT features in images, matching
+	    SIFT features between images using kd-trees, and computing
+	    geometrical image transforms from feature matches using RANSAC.
+	    The library also includes functionality to import and work with
+	    image features from both
+	    <a href="http://www.cs.ubc.ca/%7Elowe/keypoints/" target="_blank">David
+	      Lowe's SIFT executable</a> and
+	    <a href="http://www.robots.ox.ac.uk/%7Evgg/research/affine/" target="_blank">the
+	      Oxford VGG’s affine covariant feature detectors</a>. The images
+	    below depict some of this functionality.
+	  </p>
+	  <table style="margin: auto;text-align: center;border: 1px solid gray;border-collapse: collapse;font-style: italic">
+	    <tbody>
+	      <tr>
+		<td style="border: 0;padding: 5px">
+		  <table style="margin: auto; border: 0;">
+		    <tbody>
+		      <tr style="margin: auto">
+			<td style="padding: 5px; border: 0; "><img class="aligncenter" src="images/q_spades_sift.jpg" alt="" width="300px" />
+			</td>
+			<td style="padding: 5px; border: 0;"><img class="aligncenter" src="images/scene_sift.jpg" alt="" width="300px" />
+			</td>
+		      </tr>
+		    </tbody>
+		  </table>
+		</td>
+	      </tr>
+	      <tr>
+		<td style="border: 0;padding-bottom: 2px">SIFT features
+		  detected in two images</td>
+	      </tr>
+	    </tbody>
+	  </table>
+	  <br/>
+	  <table style="margin: auto;text-align: center;border: 1px solid gray;border-collapse: collapse;font-style: italic">
+	    <tbody>
+	      <tr>
+		<td style="border: 0;padding: 5px">
+		  <table style="margin: auto; border: 0;">
+		    <tbody>
+		      <tr style="margin: auto">
+			<td style="padding: 10px; border: 0;"><img src="images/sift_matches.jpg" alt="" width="600px" />
+			</td>
+			<td style="padding: 10px; border: 0;"><img src="images/match_xform.jpg" alt="" width="300px" /></td>
+		      </tr>
+		    </tbody>
+		  </table>
+		</td>
+	      </tr>
+	      <tr>
+		<td style="border: 0;padding-bottom: 2px">SIFT features
+		  matched between the two images and the transform computed
+		  from the matches using RANSAC.
+		</td>
+	      </tr>
+	    </tbody>
+	  </table>
+	  <br/>
+
+	  <div>
+	    <h2>Dependencies</h2>
+	    <ul>
+	      <li><a title="OpenCV" href="http://opencv.willowgarage.com/" target="_blank">OpenCV</a>
+		(&gt;= 2.1)</li>
+	      <li><a title="GTK" href="http://www.gtk.org/" target="_blank">GTK+2</a>
+		(&gt;= 2.9).</li>
+	    </ul>
+	  </div>
+
+	  <div>
+	    <h2>References</h2>
+	    <ul>
+	      <li><a href="siftlib-acmmm10.pdf">An Open Source SIFT Library</a>.
+		R. Hess. <em>ACM MM</em>, 2010.</li>
+	      <li><a href="http://www.cs.ubc.ca/~lowe/papers/ijcv04.pdf">Distinctive
+		  Image Features from Scale-Invariant Keypoints</a>. D. Lowe.
+		<em>IJCV</em>, 60 (2), 2004.</li>
+	    </ul>
+	  </div>
+	  <div>
+	    <h2>Acknowledgments</h2>
+	    Many thanks to everyone who contributed to this work.
+	  </div>
+	  <br/>
+
+	  <table style="margin: auto;text-align: center; width: 85%">
+	    <tbody>
+	      <tr>
+		<td style = "border: 0; font-style: bold; font-size: 200%">Patent Notice</td>
+	      </tr>
+	      <tr>
+		<td style="padding: 2px; border: 0; font-style: italic;">The following
+		  patent has been issued for methods embodied in this software:
+		  "Method and apparatus for identifying scale invariant
+		  features in an image and use of same for locating an object
+		  in an image," David G. Lowe, US Patent 6,711,293 (March 23,
+		  2004). Provisional application filed March 8, 1999. Asignee:
+		  The University of British Columbia. For further details,
+		  contact David Lowe
+		  (<a href="mailto:lowe@cs.ubc.ca">lowe@cs.ubc.ca</a>) or the
+		  University-Industry Liaison Office of the University of
+		  British Columbia.</td>
+	      </tr>
+	    </tbody>
+	  </table>
         </section>
 
         <aside id="sidebar">
@@ -47,7 +157,5 @@
         </aside>
       </div>
     </div>
-
-  
   </body>
 </html>
