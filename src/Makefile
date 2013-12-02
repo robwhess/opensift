@@ -4,7 +4,7 @@ BIN_DIR = ../bin
 INC_DIR	= ../include
 LIB_DIR	= ../lib
 INCL	= -I$(INC_DIR) `pkg-config --cflags opencv gtk+-2.0`
-LIBS	= -L$(LIB_DIR) -lopensift `pkg-config --libs opencv gtk+-2.0`
+LIBS	= -L$(LIB_DIR) -lopensift -lm `pkg-config --libs opencv gtk+-2.0`
 OBJ	= imgfeatures.o utils.o sift.o kdtree.o minpq.o xform.o
 BIN     = siftfeat match dspfeat
 
