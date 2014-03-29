@@ -252,15 +252,16 @@ static IplImage*** build_gauss_pyr( IplImage* base, int octvs,
     precompute Gaussian sigmas using the following formula:
 
     \sigma_{total}^2 = \sigma_{i}^2 + \sigma_{i-1}^2
+
+    sig[i] is the incremental sigma value needed to compute 
+    the actual sigma of level i. Keeping track of incremental
+    sigmas vs. total sigmas keeps the gaussian kernel small.
   */
-  sig[0] = sigma;
   k = pow( 2.0, 1.0 / intvls );
-  for( i = 1; i < intvls + 3; i++ )
-    {
-      sig_prev = pow( k, i - 1 ) * sigma;
-      sig_total = sig_prev * k;
-      sig[i] = sqrt( sig_total * sig_total - sig_prev * sig_prev );
-    }
+  sig[0] = sigma;
+  sig[1] = sigma * sqrt( k*k- 1 );
+  for (i = 2; i < intvls + 3; i++)
+      sig[i] = sig[i-1] * k;
 
   for( o = 0; o < octvs; o++ )
     for( i = 0; i < intvls + 3; i++ )
