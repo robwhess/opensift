@@ -27,11 +27,17 @@
 /* threshold on squared ratio of distances between NN and 2nd NN */
 #define NN_SQ_DIST_RATIO_THR 0.49
 
-struct thread_data {
-  int             thread_id;
-  char*           filename;
-  int             num_features;
+void* process_image(void* arg);
+
+struct feature_data {
+  size_t count;
   struct feature* features;
+};
+
+struct thread_data {
+  int                 thread_id;
+  char*               filename;
+  struct feature_data _feature_data;
 };
 
 void* process_image(void* arg) {
@@ -42,61 +48,29 @@ void* process_image(void* arg) {
   ctx = (struct thread_data*)arg;
   img = cvLoadImage(ctx->filename, 1);
   if (!img) fatal_error("Unable to load image from %s", ctx->filename);
-  ctx->num_features = sift_features(img, &(ctx->features));
+  ctx->_feature_data.count = sift_features(img, &(ctx->_feature_data.features));
   if (DEBUG)
-  fprintf(stderr, "Found %d features in %s...\n", ctx->num_features, ctx->filename);
+  fprintf(stderr, "Found %d features in %s...\n", ctx->_feature_data.count, ctx->filename);
   cvReleaseImage(&img);
   pthread_exit(NULL);
 }
 
-int main( int argc, char** argv ) {
-  struct feature** nbrs;
+int compare_features(struct feature_data* f0, struct feature_data* f1)
+{
   struct kd_node* kd_root;
-  CvPoint pt1, pt2;
   double d0, d1;
-  int i, num_matches = 0;
-  pthread_t threads[2];
-  struct thread_data td[2];
-  pthread_attr_t attr;
-  void* status;
-  
+  struct feature** nbrs;
+  int num_matches;
+  size_t i; /* Serves as an index into an array, hence, size_t */
 
+  /* Build KD Tree */
+  kd_root = kdtree_build(f1->features, f1->count);
 
-  /* Handle filenames */
-  if( argc != 3 )
-    fatal_error( "usage: %s <img1> <img2>", argv[0] );
-
-  td[0].filename=argv[1];
-  td[1].filename=argv[2];
-
-
-  /* Launch processing threads */
-
-  pthread_attr_init(&attr);
-  pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
-
-  for (i=0; i < 2; ++i) { 
-    int rc;
-    rc = pthread_create(&threads[i], &attr, process_image, (void*)&td[i]);
-    if (rc) fatal_error("Unable to create processing thread (err %d).",rc);
-  }
-
-  pthread_attr_destroy(&attr);
-
-  /* Wait for threads */
-
-  for (i=0; i < 2; ++i) {
-    int rc;
-    rc = pthread_join(threads[i], &status);
-    if (rc) fatal_error("Return code from thread pthread_join is %d",rc);
-  }
-
-  kd_root = kdtree_build(td[1].features, td[1].num_features);
-
-  for(i = 0; i < td[0].num_features; ++i) {
+  /* Compare feature distances */
+  for(i = 0; i < f0->count; ++i) {
     int k;
     struct feature* feat;
-    feat = td[0].features + i;
+    feat = f0->features + i;
     k = kdtree_bbf_knn( kd_root, feat, 2, &nbrs, KDTREE_BBF_MAX_NN_CHKS );
     if( k == 2 ) {
       d0 = descr_dist_sq( feat, nbrs[0] );
@@ -105,12 +79,46 @@ int main( int argc, char** argv ) {
     }
     free( nbrs );
   }
-
-  fprintf( stdout, "%d\n", num_matches);
-
   kdtree_release( kd_root );
+  return num_matches;
+}
+
+int main( int argc, char** argv ) {
+  int i;
+  pthread_t threads[2];
+  struct thread_data td[2];
+  pthread_attr_t attr;
+  void* status;
+
+  /* Handle filenames */
+  if( argc != 3 ) fatal_error( "usage: %s <img1> <img2>", argv[0] );
+  td[0].filename=argv[1];
+  td[1].filename=argv[2];
+
+  /* Launch processing threads */
+  pthread_attr_init(&attr);
+  pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+
+  for (i=0; i < 2; ++i) {
+    int rc;
+    rc = pthread_create(&threads[i], &attr, process_image, (void*)&td[i]);
+    if (rc) fatal_error("Unable to create processing thread (err %d).",rc);
+  }
+
+  pthread_attr_destroy(&attr);
+
+  /* Wait for threads to join */
+  for (i=0; i < 2; ++i) {
+    int rc;
+    rc = pthread_join(threads[i], &status);
+    if (rc) fatal_error("Return code from thread pthread_join is %d",rc);
+  }
+
+  fprintf( stdout, "%d\n", compare_features(&(td[0]._feature_data), &(td[1]._feature_data)));
+
   /* Release structures */
-  for (i=0; i<2; ++i) free(td[i].features);
+  for (i=0; i<2; ++i) free(td[i]._feature_data.features);
   pthread_exit(NULL);
+
   return 0;
 }
