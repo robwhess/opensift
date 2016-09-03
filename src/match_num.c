@@ -29,15 +29,15 @@
 
 void* process_image(void* arg);
 
-struct feature_data {
+typedef struct feature_data_t {
   size_t count;
   struct feature* features;
-};
+} FeatureData;
 
 struct thread_data {
-  int                 thread_id;
-  char*               filename;
-  struct feature_data _feature_data;
+  int         thread_id;
+  char*       filename;
+  FeatureData fdata;
 };
 
 void* process_image(void* arg) {
@@ -48,14 +48,14 @@ void* process_image(void* arg) {
   ctx = (struct thread_data*)arg;
   img = cvLoadImage(ctx->filename, 1);
   if (!img) fatal_error("Unable to load image from %s", ctx->filename);
-  ctx->_feature_data.count = sift_features(img, &(ctx->_feature_data.features));
+  ctx->fdata.count = sift_features(img, &(ctx->fdata.features));
   if (DEBUG)
-  fprintf(stderr, "Found %d features in %s...\n", ctx->_feature_data.count, ctx->filename);
+  fprintf(stderr, "Found %d features in %s...\n", ctx->fdata.count, ctx->filename);
   cvReleaseImage(&img);
   pthread_exit(NULL);
 }
 
-int compare_features(struct feature_data* f0, struct feature_data* f1)
+int compare_features(FeatureData* f0, FeatureData* f1)
 {
   struct kd_node* kd_root;
   double d0, d1;
@@ -114,10 +114,10 @@ int main( int argc, char** argv ) {
     if (rc) fatal_error("Return code from thread pthread_join is %d",rc);
   }
 
-  fprintf( stdout, "%d\n", compare_features(&(td[0]._feature_data), &(td[1]._feature_data)));
+  fprintf( stdout, "%d\n", compare_features(&(td[0].fdata), &(td[1].fdata)));
 
   /* Release structures */
-  for (i=0; i<2; ++i) free(td[i]._feature_data.features);
+  for (i=0; i<2; ++i) free(td[i].fdata.features);
   pthread_exit(NULL);
 
   return 0;
