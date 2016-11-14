@@ -43,6 +43,12 @@ To build everything, use make:
 
 	make
 
+Or you can use cmake:
+
+	cmake -G"Unix Makefiles" -DCMAKE_INSTALL_PREFIX=<Install location> .
+    make
+    make install
+
 This should produce a few executables in bin/, a static library 
 lib/libopensift.a, and some HTML documentation in docs/.  You can use the -h 
 argument to get help with any of the executables.  libopensift.a can be 
