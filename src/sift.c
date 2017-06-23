@@ -384,20 +384,20 @@ static CvSeq* scale_space_extrema( IplImage*** dog_pyr, int octvs, int intvls,
 		    if( ! is_too_edge_like( dog_pyr[ddata->octv][ddata->intvl],
 					    ddata->r, ddata->c, curv_thr ) )
 		      {
-                        if( ddata->intvl == 1 && (feature_mat[dog_pyr[o][0]->height * ddata->r + ddata->c] & 0x1) == 0 )
+                        if( ddata->intvl == 1 && (feature_mat[dog_pyr[o][0]->width * ddata->r + ddata->c] & 0x1) == 0 )
                         {
                           cvSeqPush( features, feat );
-                          feature_mat[dog_pyr[o][0]->height * ddata->r + ddata->c] += 1;
+                          feature_mat[dog_pyr[o][0]->width * ddata->r + ddata->c] += 1;
                         }
-                        else if( ddata->intvl == 2 && (feature_mat[dog_pyr[o][0]->height * ddata->r + ddata->c] & 0x2) == 0 )
+                        else if( ddata->intvl == 2 && (feature_mat[dog_pyr[o][0]->width * ddata->r + ddata->c] & 0x2) == 0 )
                         {
                           cvSeqPush( features, feat );
-                          feature_mat[dog_pyr[o][0]->height * ddata->r + ddata->c] += 2;
+                          feature_mat[dog_pyr[o][0]->width * ddata->r + ddata->c] += 2;
                         }
-                        else if( ddata->intvl == 3 && (feature_mat[dog_pyr[o][0]->height * ddata->r + ddata->c] & 0x4) == 0 )
+                        else if( ddata->intvl == 3 && (feature_mat[dog_pyr[o][0]->width * ddata->r + ddata->c] & 0x4) == 0 )
                         {
                           cvSeqPush( features, feat );
-                          feature_mat[dog_pyr[o][0]->height * ddata->r + ddata->c] += 4;
+                          feature_mat[dog_pyr[o][0]->width * ddata->r + ddata->c] += 4;
                         }
 		      }
 		    else
