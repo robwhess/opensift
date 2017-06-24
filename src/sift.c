@@ -363,13 +363,12 @@ static CvSeq* scale_space_extrema( IplImage*** dog_pyr, int octvs, int intvls,
   struct feature* feat;
   struct detection_data* ddata;
   int o, i, r, c;
-  char* feature_mat;
+  long* feature_mat;
 
   features = cvCreateSeq( 0, sizeof(CvSeq), sizeof(struct feature), storage );
   for( o = 0; o < octvs; o++ )
   {
-    feature_mat = malloc( dog_pyr[o][0]->height * dog_pyr[o][0]->width );
-    memset(feature_mat, 0x0, dog_pyr[o][0]->height * dog_pyr[o][0]->width);
+    feature_mat = calloc( dog_pyr[o][0]->height * dog_pyr[o][0]->width, sizeof(long) );
     for( i = 1; i <= intvls; i++ )
       for(r = SIFT_IMG_BORDER; r < dog_pyr[o][0]->height-SIFT_IMG_BORDER; r++)
 	for(c = SIFT_IMG_BORDER; c < dog_pyr[o][0]->width-SIFT_IMG_BORDER; c++)
@@ -384,20 +383,10 @@ static CvSeq* scale_space_extrema( IplImage*** dog_pyr, int octvs, int intvls,
 		    if( ! is_too_edge_like( dog_pyr[ddata->octv][ddata->intvl],
 					    ddata->r, ddata->c, curv_thr ) )
 		      {
-                        if( ddata->intvl == 1 && (feature_mat[dog_pyr[o][0]->width * ddata->r + ddata->c] & 0x1) == 0 )
+                        if( (feature_mat[dog_pyr[o][0]->width * ddata->r + ddata->c] & (1<<ddata->intvl-1)) == 0 )
                         {
                           cvSeqPush( features, feat );
-                          feature_mat[dog_pyr[o][0]->width * ddata->r + ddata->c] += 1;
-                        }
-                        else if( ddata->intvl == 2 && (feature_mat[dog_pyr[o][0]->width * ddata->r + ddata->c] & 0x2) == 0 )
-                        {
-                          cvSeqPush( features, feat );
-                          feature_mat[dog_pyr[o][0]->width * ddata->r + ddata->c] += 2;
-                        }
-                        else if( ddata->intvl == 3 && (feature_mat[dog_pyr[o][0]->width * ddata->r + ddata->c] & 0x4) == 0 )
-                        {
-                          cvSeqPush( features, feat );
-                          feature_mat[dog_pyr[o][0]->width * ddata->r + ddata->c] += 4;
+                          feature_mat[dog_pyr[o][0]->width * ddata->r + ddata->c] += 1<<ddata->intvl-1;
                         }
 		      }
 		    else
