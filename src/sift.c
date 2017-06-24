@@ -383,10 +383,12 @@ static CvSeq* scale_space_extrema( IplImage*** dog_pyr, int octvs, int intvls,
 		    if( ! is_too_edge_like( dog_pyr[ddata->octv][ddata->intvl],
 					    ddata->r, ddata->c, curv_thr ) )
 		      {
-                        if( (feature_mat[dog_pyr[o][0]->width * ddata->r + ddata->c] & (1<<ddata->intvl-1)) == 0 )
+                        if( ddata->intvl > sizeof(unsigned long) )
+                          cvSeqPush( features, feat );
+                        else if( (feature_mat[dog_pyr[o][0]->width * ddata->r + ddata->c] & (1 << ddata->intvl-1)) == 0 )
                         {
                           cvSeqPush( features, feat );
-                          feature_mat[dog_pyr[o][0]->width * ddata->r + ddata->c] += 1<<ddata->intvl-1;
+                          feature_mat[dog_pyr[o][0]->width * ddata->r + ddata->c] += 1 << ddata->intvl-1;
                         }
 		      }
 		    else
