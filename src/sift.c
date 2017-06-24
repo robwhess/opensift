@@ -363,12 +363,12 @@ static CvSeq* scale_space_extrema( IplImage*** dog_pyr, int octvs, int intvls,
   struct feature* feat;
   struct detection_data* ddata;
   int o, i, r, c;
-  long* feature_mat;
+  unsigned long* feature_mat;
 
   features = cvCreateSeq( 0, sizeof(CvSeq), sizeof(struct feature), storage );
   for( o = 0; o < octvs; o++ )
   {
-    feature_mat = calloc( dog_pyr[o][0]->height * dog_pyr[o][0]->width, sizeof(long) );
+    feature_mat = calloc( dog_pyr[o][0]->height * dog_pyr[o][0]->width, sizeof(unsigned long) );
     for( i = 1; i <= intvls; i++ )
       for(r = SIFT_IMG_BORDER; r < dog_pyr[o][0]->height-SIFT_IMG_BORDER; r++)
 	for(c = SIFT_IMG_BORDER; c < dog_pyr[o][0]->width-SIFT_IMG_BORDER; c++)
