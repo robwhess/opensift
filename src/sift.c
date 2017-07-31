@@ -363,9 +363,12 @@ static CvSeq* scale_space_extrema( IplImage*** dog_pyr, int octvs, int intvls,
   struct feature* feat;
   struct detection_data* ddata;
   int o, i, r, c;
+  unsigned long* feature_mat;
 
   features = cvCreateSeq( 0, sizeof(CvSeq), sizeof(struct feature), storage );
   for( o = 0; o < octvs; o++ )
+  {
+    feature_mat = calloc( dog_pyr[o][0]->height * dog_pyr[o][0]->width, sizeof(unsigned long) );
     for( i = 1; i <= intvls; i++ )
       for(r = SIFT_IMG_BORDER; r < dog_pyr[o][0]->height-SIFT_IMG_BORDER; r++)
 	for(c = SIFT_IMG_BORDER; c < dog_pyr[o][0]->width-SIFT_IMG_BORDER; c++)
@@ -380,14 +383,21 @@ static CvSeq* scale_space_extrema( IplImage*** dog_pyr, int octvs, int intvls,
 		    if( ! is_too_edge_like( dog_pyr[ddata->octv][ddata->intvl],
 					    ddata->r, ddata->c, curv_thr ) )
 		      {
-			cvSeqPush( features, feat );
+                        if( ddata->intvl > sizeof(unsigned long) )
+                          cvSeqPush( features, feat );
+                        else if( (feature_mat[dog_pyr[o][0]->width * ddata->r + ddata->c] & (1 << ddata->intvl-1)) == 0 )
+                        {
+                          cvSeqPush( features, feat );
+                          feature_mat[dog_pyr[o][0]->width * ddata->r + ddata->c] += 1 << ddata->intvl-1;
+                        }
 		      }
 		    else
 		      free( ddata );
 		    free( feat );
 		  }
 	      }
-  
+    free( feature_mat );
+  }
   return features;
 }
 
