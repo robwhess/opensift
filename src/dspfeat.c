@@ -34,24 +34,24 @@ int feat_type = FEATURE_LOWE;
 
 int main( int argc, char** argv )
 {
-  IplImage* img;
+  IplImage img;
   struct feature* feat;
   char* name;
   int n;
 
   arg_parse( argc, argv );
 
-  img = cvLoadImage( img_file, 1 );
-  if( ! img )
+  img = cvIplImage(cv::imread( img_file, 1 ));
+  if( ! img.imageSize )
     fatal_error( "unable to load image from %s", img_file );
   n = import_features( feat_file, feat_type, &feat );
   if( n == -1 )
     fatal_error( "unable to import features from %s", feat_file );
   name = feat_file;
 
-  draw_features( img, feat, n );
+  draw_features( &img, feat, n );
   cvNamedWindow( name, 1 );
-  cvShowImage( name, img );
+  cvShowImage( name, &img );
   cvWaitKey( 0 );
   return 0;
 }

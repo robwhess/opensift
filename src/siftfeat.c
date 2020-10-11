@@ -52,24 +52,24 @@ int display = 1;
 
 int main( int argc, char** argv )
 {
-  IplImage* img;
+  IplImage img;
   struct feature* features;
   int n = 0;
 
   arg_parse( argc, argv );
 
   fprintf( stderr, "Finding SIFT features...\n" );
-  img = cvLoadImage( img_file_name, 1 );
-  if( ! img )
+  img = cvIplImage(cv::imread( img_file_name, 1 ));
+  if( ! img.imageSize )
     fatal_error( "unable to load image from %s", img_file_name );
-  n = _sift_features( img, &features, intvls, sigma, contr_thr, curv_thr,
+  n = _sift_features( &img, &features, intvls, sigma, contr_thr, curv_thr,
 		      img_dbl, descr_width, descr_hist_bins );
   fprintf( stderr, "Found %d features.\n", n );
   
   if( display )
     {
-      draw_features( img, features, n );
-      display_big_img( img, img_file_name );
+      draw_features( &img, features, n );
+      display_big_img( &img, img_file_name );
       cvWaitKey( 0 );
     }
 
@@ -77,7 +77,7 @@ int main( int argc, char** argv )
     export_features( out_file_name, features, n );
 
   if( out_img_name != NULL )
-    cvSaveImage( out_img_name, img, NULL );
+    cv::imwrite( out_img_name, cv::cvarrToMat(&img) );
   return 0;
 }
 
