@@ -3,8 +3,8 @@ CFLAGS	+= -fpermissive -Wno-deprecated-declarations -Wno-write-strings
 BIN_DIR = ../bin
 INC_DIR	= ../include
 LIB_DIR	= ../lib
-INCL	= -I$(INC_DIR) `pkg-config --cflags opencv gtk+-2.0`
-LIBS	= -L$(LIB_DIR) -lopensift -lm `pkg-config --libs opencv gtk+-2.0`
+INCL	= -I$(INC_DIR) `pkg-config --cflags opencv4 gtk+-2.0`
+LIBS	= -L$(LIB_DIR) -lopensift -lm -lopencv_highgui -lopencv_imgcodecs -lopencv_imgproc -lopencv_core  `pkg-config --libs gtk+-2.0`
 OBJ	= imgfeatures.o utils.o sift.o kdtree.o minpq.o xform.o
 BIN     = siftfeat match dspfeat match_num
 
