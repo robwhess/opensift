@@ -85,7 +85,7 @@ static void usage( char* name )
 */
 static void arg_parse( int argc, char** argv )
 {
-  pname = basename( argv[0] );
+  pname = sift_basename( argv[0] );
   int arg;
   while( 1 )
     {

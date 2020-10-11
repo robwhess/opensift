@@ -156,7 +156,7 @@ extern char* prepend_path( const char* path, const char* file );
 
    @return Returns the basename of \a pathname.
 */
-extern char* basename( const char* pathname );
+extern char* sift_basename( const char* pathname );
 
 
 /**

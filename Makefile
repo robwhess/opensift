@@ -1,4 +1,4 @@
-CC	= gcc
+CC	= g++
 CFLAGS	+= -O3
 BIN_DIR	= ./bin
 SRC_DIR	= ./src

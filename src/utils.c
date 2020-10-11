@@ -105,7 +105,7 @@ char* prepend_path( const char* path, const char* file )
   
   @return Returns the basename of \a pathname.
 */
-char* basename( const char* pathname )
+char* sift_basename( const char* pathname )
 {
   char* base, * last_slash;
 
