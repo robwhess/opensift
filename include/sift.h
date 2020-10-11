@@ -20,7 +20,7 @@
 #ifndef SIFT_H
 #define SIFT_H
 
-#include "cxcore.h"
+#include <opencv2/core/core_c.h>
 
 /******************************** Structures *********************************/
 

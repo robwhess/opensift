@@ -19,8 +19,6 @@
 #include "imgfeatures.h"
 #include "utils.h"
 
-#include <cxcore.h>
-
 #include <stdio.h>
 
 struct bbf_data

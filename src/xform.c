@@ -11,8 +11,6 @@
 #include "imgfeatures.h"
 #include "utils.h"
 
-#include <cxcore.h>
-
 #include <stdlib.h>
 #include <time.h>
 

@@ -9,7 +9,7 @@
 #include "utils.h"
 #include "imgfeatures.h"
 
-#include <cxcore.h>
+#include <opencv2/imgproc.hpp>
 
 static int import_oxfd_features( char*, struct feature** );
 static int export_oxfd_features( char*, struct feature*, int );

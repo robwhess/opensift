@@ -21,9 +21,6 @@
 #include "imgfeatures.h"
 #include "utils.h"
 
-#include <cxcore.h>
-#include <cv.h>
-
 /************************* Local Function Prototypes *************************/
 
 static IplImage* create_init_img( IplImage*, int, double );

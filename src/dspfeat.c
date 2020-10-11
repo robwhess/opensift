@@ -9,8 +9,8 @@
 #include "imgfeatures.h"
 #include "utils.h"
 
-#include <cxcore.h>
-#include <highgui.h>
+#include <opencv2/highgui/highgui_c.h>
+#include <opencv2/imgcodecs.hpp>
 
 #include <unistd.h>
 

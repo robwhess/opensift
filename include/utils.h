@@ -9,7 +9,7 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-#include "cxcore.h"
+#include <opencv2/imgproc/imgproc_c.h>
 
 #include <stdio.h>
 #include <dirent.h>
