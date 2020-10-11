@@ -64,8 +64,8 @@ int main( int argc, char** argv )
 	    {
 	      pt1 = cvPoint( cvRound( feat->x ), cvRound( feat->y ) );
 	      pt2 = cvPoint( cvRound( nbrs[0]->x ), cvRound( nbrs[0]->y ) );
-	      pt2.y += img1->height;
-	      cvLine( stacked, pt1, pt2, CV_RGB(255,0,255), 1, 8, 0 );
+	      pt2.y += img1.height;
+	      cvLine( stacked, pt1, pt2, {255,0,255}, 1, 8, 0 );
 	      m++;
 	      feat1[i].fwd_match = nbrs[0];
 	    }

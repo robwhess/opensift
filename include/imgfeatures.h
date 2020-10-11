@@ -28,8 +28,8 @@ enum feature_match_type
 
 
 /* colors in which to display different feature types */
-#define FEATURE_OXFD_COLOR CV_RGB(255,255,0)
-#define FEATURE_LOWE_COLOR CV_RGB(255,0,255)
+#define FEATURE_OXFD_COLOR {255,255,0}
+#define FEATURE_LOWE_COLOR {255,0,255}
 
 /** max feature descriptor length */
 #define FEATURE_MAX_D 128

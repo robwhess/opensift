@@ -336,7 +336,7 @@ static int export_oxfd_features( char* filename, struct feature* feat, int n )
 */
 static void draw_oxfd_features( IplImage* img, struct feature* feat, int n )
 {
-  CvScalar color = CV_RGB( 255, 255, 255 );
+  CvScalar color ({ 255, 255, 255 });
   int i;
 
   if( img-> nChannels > 1 )
@@ -374,7 +374,7 @@ static void draw_oxfd_feature( IplImage* img, struct feature* feat,
   alpha *= 180 / M_PI;
 
   cvEllipse( img, cvPoint( feat->x, feat->y ), cvSize( l2, l1 ), alpha,
-	     0, 360, CV_RGB(0,0,0), 3, 8, 0 );
+	     0, 360, {0,0,0}, 3, 8, 0 );
   cvEllipse( img, cvPoint( feat->x, feat->y ), cvSize( l2, l1 ), alpha,
 	     0, 360, color, 1, 8, 0 );
   cvLine( img, cvPoint( feat->x+2, feat->y ), cvPoint( feat->x-2, feat->y ),
@@ -543,7 +543,7 @@ static int export_lowe_features( char* filename, struct feature* feat, int n )
 */
 static void draw_lowe_features( IplImage* img, struct feature* feat, int n )
 {
-  CvScalar color = CV_RGB( 255, 255, 255 );
+  CvScalar color ({ 255, 255, 255 });
   int i;
 
   if( img-> nChannels > 1 )
