@@ -7,12 +7,12 @@ INC_DIR	= ./include
 LIB_DIR	= ./lib
 BIN	= siftfeat match dspfeat match_num
 
-all: $(BIN) libopensift.a docs
+all: $(BIN) libopensift.so docs
 
 docs:
 	doxygen Doxyfile
 
-libopensift.a:
+libopensift.so:
 	make -C $(SRC_DIR) $@
 
 $(BIN):
@@ -29,4 +29,4 @@ distclean: clean
 docsclean:
 	rm -rf $(DOC_DIR)/html/
 
-.PHONY: docs clean docsclean libopensift.a
+.PHONY: docs clean docsclean libopensift.so
