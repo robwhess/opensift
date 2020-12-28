@@ -1,3 +1,5 @@
+*Update: This project is essentially unmaintained at this point, since I don't have time to work on it, and my focus has moved on to other things.  Note that this very code was long ago incorporated directly into OpenCV and, as far as I know, still serves as the basis of OpenCV's SIFT implementation.  Thus, if you have any issues with this project, I encourage you to use OpenCV's SIFT implementation directly.*
+
 Intro
 =====
 
