@@ -8,9 +8,7 @@
 
 #include "utils.h"
 
-#include <cv.h>
-#include <cxcore.h>
-#include <highgui.h>
+#include <opencv2/highgui/highgui_c.h>
 
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
@@ -105,7 +103,7 @@ char* prepend_path( const char* path, const char* file )
   
   @return Returns the basename of \a pathname.
 */
-char* basename( const char* pathname )
+char* sift_basename( const char* pathname )
 {
   char* base, * last_slash;
 

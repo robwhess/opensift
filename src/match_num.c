@@ -12,9 +12,8 @@
 #include "utils.h"
 #include "xform.h"
 
-#include <cv.h>
-#include <cxcore.h>
-#include <highgui.h>
+#include <opencv2/highgui/highgui_c.h>
+#include <opencv2/imgcodecs.hpp>
 
 #include <stdio.h>
 #include <pthread.h>
@@ -43,15 +42,14 @@ struct thread_data {
 void* process_image(void* arg) {
   int n;
   struct thread_data* ctx;
-  IplImage*       img;
+  IplImage       img;
 
   ctx = (struct thread_data*)arg;
-  img = cvLoadImage(ctx->filename, 1);
-  if (!img) fatal_error("Unable to load image from %s", ctx->filename);
-  ctx->fdata.count = sift_features(img, &(ctx->fdata.features));
+  img = cvIplImage(cv::imread(ctx->filename, 1));
+  if (!img.imageSize) fatal_error("Unable to load image from %s", ctx->filename);
+  ctx->fdata.count = sift_features(&img, &(ctx->fdata.features));
   if (DEBUG)
   fprintf(stderr, "Found %d features in %s...\n", ctx->fdata.count, ctx->filename);
-  cvReleaseImage(&img);
   pthread_exit(NULL);
 }
 

@@ -12,9 +12,8 @@
 #include "utils.h"
 #include "xform.h"
 
-#include <cv.h>
-#include <cxcore.h>
-#include <highgui.h>
+#include <opencv2/highgui/highgui_c.h>
+#include <opencv2/imgcodecs.hpp>
 
 #include <stdio.h>
 
@@ -28,7 +27,7 @@
 
 int main( int argc, char** argv )
 {
-  IplImage* img1, * img2, * stacked;
+  IplImage img1, img2, * stacked;
   struct feature* feat1, * feat2, * feat;
   struct feature** nbrs;
   struct kd_node* kd_root;
@@ -39,18 +38,18 @@ int main( int argc, char** argv )
   if( argc != 3 )
     fatal_error( "usage: %s <img1> <img2>", argv[0] );
   
-  img1 = cvLoadImage( argv[1], 1 );
-  if( ! img1 )
+  img1 = cvIplImage(cv::imread( argv[1], 1 ));
+  if( ! img1.imageSize )
     fatal_error( "unable to load image from %s", argv[1] );
-  img2 = cvLoadImage( argv[2], 1 );
-  if( ! img2 )
+  img2 = cvIplImage(cv::imread( argv[2], 1 ));
+  if( ! img2.imageSize )
     fatal_error( "unable to load image from %s", argv[2] );
-  stacked = stack_imgs( img1, img2 );
+  stacked = stack_imgs( &img1, &img2 );
 
   fprintf( stderr, "Finding features in %s...\n", argv[1] );
-  n1 = sift_features( img1, &feat1 );
+  n1 = sift_features( &img1, &feat1 );
   fprintf( stderr, "Finding features in %s...\n", argv[2] );
-  n2 = sift_features( img2, &feat2 );
+  n2 = sift_features( &img2, &feat2 );
   fprintf( stderr, "Building kd tree...\n" );
   kd_root = kdtree_build( feat2, n2 );
   for( i = 0; i < n1; i++ )
@@ -65,8 +64,8 @@ int main( int argc, char** argv )
 	    {
 	      pt1 = cvPoint( cvRound( feat->x ), cvRound( feat->y ) );
 	      pt2 = cvPoint( cvRound( nbrs[0]->x ), cvRound( nbrs[0]->y ) );
-	      pt2.y += img1->height;
-	      cvLine( stacked, pt1, pt2, CV_RGB(255,0,255), 1, 8, 0 );
+	      pt2.y += img1.height;
+	      cvLine( stacked, pt1, pt2, {255,0,255}, 1, 8, 0 );
 	      m++;
 	      feat1[i].fwd_match = nbrs[0];
 	    }
@@ -109,8 +108,6 @@ int main( int argc, char** argv )
   */
 
   cvReleaseImage( &stacked );
-  cvReleaseImage( &img1 );
-  cvReleaseImage( &img2 );
   kdtree_release( kd_root );
   free( feat1 );
   free( feat2 );

@@ -1,30 +1,29 @@
-CC	= gcc
-CFLAGS	+=
+CC	= g++
+CFLAGS	+= -fpermissive -Wno-deprecated-declarations -Wno-write-strings -fPIC
 BIN_DIR = ../bin
 INC_DIR	= ../include
 LIB_DIR	= ../lib
-INCL	= -I$(INC_DIR) `pkg-config --cflags opencv gtk+-2.0`
-LIBS	= -L$(LIB_DIR) -lopensift -lm `pkg-config --libs opencv gtk+-2.0`
+INCL	= -I$(INC_DIR) `pkg-config --cflags opencv4 gtk+-2.0`
+LIBS	= -L$(LIB_DIR) -lm -lopencv_highgui -lopencv_imgcodecs -lopencv_imgproc -lopencv_core
 OBJ	= imgfeatures.o utils.o sift.o kdtree.o minpq.o xform.o
 BIN     = siftfeat match dspfeat match_num
 
-all: $(BIN) libopensift.a
+all: $(BIN) libopensift.so
 
-libopensift.a: $(OBJ)
-	ar rc $(LIB_DIR)/$@ $(OBJ)
-	ranlib  $(LIB_DIR)/$@
+libopensift.so: $(OBJ)
+	g++ -shared $(CFLAGS) $(LDFLAGS) -o $(LIB_DIR)/$@ $^ $(LIBS)
 
-siftfeat: libopensift.a siftfeat.c
-	$(CC) $(CFLAGS) $(INCL) siftfeat.c -o $(BIN_DIR)/$@ $(LIBS)
+siftfeat: libopensift.so siftfeat.c
+	$(CC) $(CFLAGS) $(INCL) siftfeat.c -o $(BIN_DIR)/$@ -lopensift $(LIBS)
 
-match: libopensift.a match.c
-	$(CC) $(CFLAGS) $(INCL) match.c -o $(BIN_DIR)/$@ $(LIBS)
+match: libopensift.so match.c
+	$(CC) $(CFLAGS) $(INCL) match.c -o $(BIN_DIR)/$@ -lopensift $(LIBS)
 
-match_num: libopensift.a match.c
-	$(CC) $(CFLAGS) $(INCL) match_num.c -o $(BIN_DIR)/$@ $(LIBS)
+match_num: libopensift.so match.c
+	$(CC) $(CFLAGS) $(INCL) match_num.c -o $(BIN_DIR)/$@ -lopensift $(LIBS)
 
-dspfeat: libopensift.a dspfeat.c
-	$(CC) $(CFLAGS) $(INCL) dspfeat.c -o $(BIN_DIR)/$@ $(LIBS)
+dspfeat: libopensift.so dspfeat.c
+	$(CC) $(CFLAGS) $(INCL) dspfeat.c -o $(BIN_DIR)/$@ -lopensift $(LIBS)
 
 imgfeatures.o: imgfeatures.c $(INC_DIR)/imgfeatures.h
 	$(CC) $(CFLAGS) $(INCL) -c imgfeatures.c -o $@
